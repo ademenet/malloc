@@ -4,7 +4,7 @@ CC = gcc
 
 FLAGS = -Wall -Wextra -Werror
 
-CPP_FLAGS = -Iinclude
+CPP_FLAGS = -I include
 
 NAME = libft_malloc_$HOSTTYPE.so
 
@@ -12,7 +12,7 @@ SRC_PATH = ./src
 INC_PATH = ./inc
 OBJ_PATH = ./obj
 
-SRC_NAME = 
+SRC_NAME = main.c
 
 INC_NAME = 
 
@@ -47,3 +47,4 @@ re: fclean all
 
 norme:
 	@norminette */*[hc]
+	@norminette *[hc]
