@@ -172,6 +172,8 @@ void			*malloc_nts(size_t size)
 	t_block		*new;
 
 	init_malloc();
+	if (size == 0)
+		size = 1;
 	if (size <= TINY_LIM)
 		new = allocate(size, g_bin.tiny, TINY);
 	else if (size <= SMALL_LIM)
