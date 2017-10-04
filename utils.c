@@ -6,7 +6,7 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 16:53:35 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/03 14:59:47 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/04 14:00:14 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ void			display_list_of_blocks(t_block *list)
 	tmp = list;
 	while(tmp)
 	{
-		printf("list->size:\t%zu\nlist->next:\t%p\nlist->free:\t%d\n",\
+		fprintf(stderr, "list->size:\t%zu\nlist->next:\t%p\nlist->free:\t%d\n",\
 				  list->size, list->next, list->free);
-		printf("---\n");
+		fprintf(stderr, "---\n");
 		tmp = tmp->next;
 	}
 }
