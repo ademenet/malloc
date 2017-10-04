@@ -6,7 +6,7 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/27 11:13:50 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/04 16:53:02 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/04 16:54:17 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ static t_block	*allocate(size_t size, t_block *list, t_type type)
 	if ((new_block = find_fit(list, true_size)) != NULL)
 	{
 		debug("new_block in find_fit : %p", new_block);
-		if (((new_block->size + HEADER_SIZE) - true_size) > 0)
+		if ((new_block->size - true_size) > 0)
 		{
 			debug("(%zu + %lu) - %zu = %d", new_block->size,HEADER_SIZE,true_size,(new_block->size + HEADER_SIZE) - true_size);
 			next_block = (void*)new_block + true_size;
