@@ -6,10 +6,12 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/04 13:59:43 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/04 12:13:40 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/04 17:34:48 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <time.h>
+#include <stdlib.h>
 #include "malloc.h"
 
 void		test_large(void)
@@ -47,6 +49,20 @@ void		test_large_loop(void)
 	}
 }
 
+void		test_loop_large_random(void)
+{
+	int		param;
+	int		max = 1500;
+	int		i;
+	char	*test;
+
+	for (i = 0; i < max; i++) {
+		param = rand();
+		test = (char*)malloc_nts(param);
+		test[0] = 'a';
+	}
+}
+
 void		test_small(void)
 {
 	char	*test1;
@@ -62,6 +78,33 @@ void		test_small(void)
 		test2[i] = 'b';
 	}
 	printf("%s%s\n", test1, test2);		
+}
+
+void		test_loop_small(void)
+{
+	int		param = 3467;
+	int		max = 32000;
+	int		i;
+	char	*test;
+
+	for (i = 0; i < max; i++) {
+		test = (char*)malloc_nts(param);
+		test[0] = 'a';
+	}
+}
+
+void		test_loop_tinysmall_random(void)
+{
+	int		param;
+	int		max = 1500;
+	int		i;
+	char	*test;
+
+	for (i = 0; i < max; i++) {
+		param = rand() % 4097;
+		test = (char*)malloc_nts(param);
+		test[0] = 'a';
+	}
 }
 
 void		test_tiny(void)
@@ -81,10 +124,25 @@ void		test_tiny(void)
 	printf("%s%s\n", test1, test2);		
 }
 
+void		test_loop_tiny_random(void)
+{
+	int		param;
+	int		max = 1500;
+	int		i;
+	char	*test;
+
+	for (i = 0; i < max; i++) {
+		param = rand() % 1025;
+		test = (char*)malloc_nts(param);
+		test[0] = 'a';
+	}
+}
+
 void		test_loop_tiny(void)
 {
-	int		param = 32;
-	int		max = 8192;
+	/* J'ai eu un bug (regle) avec valeurs param = 32 et max = 8191 et + */
+	int		param = 1024;
+	int		max = 8191;
 	int		i;
 	char	*test;
 
@@ -113,10 +171,15 @@ void		test_nul(void)
 
 int			main(void)
 {
+	srand(time(NULL));
 	// test_large();
-	test_large_loop();
+	// test_large_loop();
 	// test_tiny();
 	// test_small();
+	// test_loop_small();
+	test_loop_large_random();
+	// test_loop_tinysmall_random();
+	// test_loop_tiny_random();
 	// test_loop_tiny();
 	show_mem_alloc();
 	// show_mem_alloc_all();
