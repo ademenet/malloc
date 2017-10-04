@@ -6,7 +6,7 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/27 11:13:50 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/04 16:54:17 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/04 17:33:47 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,45 +81,28 @@ static t_block	*extend_heap(t_block *list, size_t size, size_t true_size,
 
 	new_block = (type == TINY) ? mmap(0, TINY_ZONE, PROT_SET, MAP_SET, -1, 0) :\
 		mmap(0, SMALL_ZONE, PROT_SET, MAP_SET, -1, 0);
-	debug("new_block = %p", new_block);
-	debug("true_size = %zu", true_size);
-	getchar();
 	new_block->free = 0;
 	new_block->size = size;
 	prev_block = list;
 	while (prev_block->next)
 		prev_block = prev_block->next;
-	// debug("prev_block = %p", prev_block);
-	// debug("prev_block->next = %p", prev_block->next);
 	new_block->prev = prev_block;
 	prev_block->next = new_block;
-	// debug("prev_block->next = %p", prev_block->next);
 	next_block = (void*)new_block + true_size;
-	// debug("next_block = %p", next_block);
 	new_block->next = next_block;
-	// debug("new_block->next = %p", new_block->next);
 	if (type == TINY)
 		next_block->size = TINY_ZONE - true_size;
 	else if (type == SMALL)
 		next_block->size = SMALL_ZONE - true_size;
-	// debug("next_block->size = %zu", next_block->size);
 	next_block->free = 1;
 	next_block->prev = new_block;
-	// debug("next_block->prev = %p", next_block->prev);
 	next_block->next = NULL;
-	// getchar();
 	return (new_block);
 }
 
 /*
 ** Manages tiny and small allocations by placing headers and returning the
 ** available space afterwards.
-*/
-
-/* TODO Segfault du a un decalage dans la seconde zone : 
-mon algo croit quil y a plus de places restantes quil ny en a pour de vrai
-peut etre solution : dans linitalisation de la seconde page, je cree un decalage
-des le debut.
 */
 
 static t_block	*allocate(size_t size, t_block *list, t_type type)
@@ -132,16 +115,10 @@ static t_block	*allocate(size_t size, t_block *list, t_type type)
 		ALIGN((size + HEADER_SIZE), SMALL_RES);
 	if ((new_block = find_fit(list, true_size)) != NULL)
 	{
-		debug("new_block in find_fit : %p", new_block);
 		if ((new_block->size - true_size) > 0)
 		{
-			debug("(%zu + %lu) - %zu = %d", new_block->size,HEADER_SIZE,true_size,(new_block->size + HEADER_SIZE) - true_size);
 			next_block = (void*)new_block + true_size;
-			debug("next_block = %p", next_block);
-			debug("next_block->free = %d", next_block->free); 
 			next_block->free = 1;
-			debug("new_block->size = %zu", new_block->size);
-			debug("next_block->size = %zu", next_block->size);
 			next_block->size = new_block->size - true_size;
 			next_block->prev = new_block;
 			next_block->next = new_block->next;
@@ -152,7 +129,6 @@ static t_block	*allocate(size_t size, t_block *list, t_type type)
 	}
 	else
 		new_block = extend_heap(list, size, true_size, type);
-	debug("new_block : %p", new_block);
 	return (new_block);
 }
 
@@ -202,6 +178,5 @@ void			*malloc_nts(size_t size)
 		new = allocate(size, g_bin.small, SMALL);
 	else
 		new = allocate_large(size);
-	debug("new = %p", new);
 	return ((void*)new + HEADER_SIZE);
 }
