@@ -6,7 +6,7 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/27 11:13:50 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/04 17:33:47 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/04 17:51:35 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,6 +174,8 @@ void			*malloc_nts(size_t size)
 	init_malloc();
 	if (size == 0)
 		size = 1;
+	if (size >= SIZE_T_MAX)
+		size = SIZE_T_MAX - HEADER_SIZE;
 	if (size <= TINY_LIM)
 		new = allocate(size, g_bin.tiny, TINY);
 	else if (size <= SMALL_LIM)
