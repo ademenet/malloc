@@ -6,7 +6,7 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/27 11:13:50 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/03 18:41:48 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/04 12:10:43 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,6 @@ t_bin			g_bin = {NULL, NULL, NULL};
 ** getpagesize() boundary and maintains the list.
 */
 
-/* TODO: trier la liste à l'insertion. EN COURS A VERIFIER !!! */
-/* TODO: ajouter le prev et le next */
-
 static void		*allocate_large(size_t size)
 {
 	t_block		*new_large;
@@ -32,12 +29,20 @@ static void		*allocate_large(size_t size)
 	new_large->size = size;
 	new_large->free = 0;
 	if (!g_bin.large)
+	{
 		g_bin.large = new_large;
-	tmp = g_bin.large;
-	while (tmp->next != NULL && new_large < tmp->next)
-		tmp = tmp->next;
-	new_large->next = (g_bin.large->next != NULL) ? tmp : NULL;
-	new_large->prev = (g_bin.large->next != NULL) ? tmp->prev : NULL;
+		new_large->next = NULL;
+		new_large->prev = NULL;
+	}
+	else
+	{
+		tmp = g_bin.large;
+		while (tmp->next != NULL || new_large < tmp->next)
+			tmp = tmp->next;
+		new_large->prev = tmp;
+		new_large->next = tmp->next;
+		tmp->next = new_large;
+	}
 	return (new_large);
 }
 

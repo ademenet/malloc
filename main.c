@@ -6,7 +6,7 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/04 13:59:43 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/03 18:20:12 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/04 12:13:40 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,19 @@ void		test_large(void)
 		test2[i] = 'a';
 	}
 	printf("%s%s%s\n", test1, test2, test3);	
+}
+
+void		test_large_loop(void)
+{
+	int		param = 5000;
+	int		max = 50;
+	int		i;
+	char	*test;
+
+	for (i = 0; i < max; i++) {
+		test = (char*)malloc_nts(param);
+		test[0] = 'a';
+	}
 }
 
 void		test_small(void)
@@ -101,9 +114,10 @@ void		test_nul(void)
 int			main(void)
 {
 	// test_large();
+	test_large_loop();
 	// test_tiny();
 	// test_small();
-	test_loop_tiny();
+	// test_loop_tiny();
 	show_mem_alloc();
 	// show_mem_alloc_all();
 	// test_nul();
