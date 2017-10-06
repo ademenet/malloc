@@ -6,7 +6,7 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/27 14:21:29 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/04 17:51:01 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/06 11:32:38 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,13 @@ static void					init_malloc(void);
 void						*malloc_nts(size_t size);
 
 void						free_nts(void *ptr);
+
+/*
+** free
+*/
+
+void						free_nts(void *ptr);
+void						coalesce(t_block *ptr);
 
 /*
 ** utils

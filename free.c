@@ -6,7 +6,7 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 14:00:13 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/04 18:02:07 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/06 11:49:13 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,27 @@ TODO
 - detect free zone and munmap them
 */
 
-void			coalesce_next(t_block *ptr)
+void			coalesce(t_block *ptr)
 {
-	if (ptr->next->free == 1)
+	size_t		new_size;
+
+	if (ptr->next && ptr->next->free)
 	{
 		ptr->next = ptr->next->next;
-		ptr->next->next = NULL;
 		ptr->size = ptr->size + ptr->next->size + HEADER_SIZE;
 		ptr->next->size = 0;
 		ptr->next->free = 0;
+		if (ptr->next->next)
+			ptr->next->next->prev = ptr;
 	}
-	if (ptr->prev->free == 1)
+	if (ptr->prev && ptr->prev->free)
 	{
-		
+		ptr->prev->next = ptr->next;
+		ptr->prev->size = ptr->prev->size + ptr->size + HEADER_SIZE;
+		ptr->size = 0;
+		ptr->free = 0;
+		if (ptr->next)
+			ptr->next->prev = ptr->prev;
 	}
 	return ;
 }
@@ -44,11 +52,10 @@ void			free_nts(void *ptr)
 {
 	t_block		*tmp;
 
-	if (ptr == 0)
+	if (!ptr)
 		return ;
+	/* que faire si j'ai pas de header ? */
 	tmp = (void*)ptr - HEADER_SIZE;
 	tmp->free = 1;
-	// Idee : mettre un flag pour reconnaitre si vraiment memoire alloue
-	// mettre le pointeur sur libre
-	
+	coalesce(tmp);	
 }
