@@ -6,7 +6,7 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/27 14:21:29 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/06 11:32:38 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/09 18:42:05 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,16 @@
 # define SMALL_LIM			4096
 
 # define HEADER_SIZE		(sizeof(t_block))
-// # define ALIGN(size, res)	(((size) + ((res) - 1)) & ~((res) - 1))
 # define ALIGN(size, res)	(((size) + ((res) - 1))/res)*(res)
 
 # define PROT_SET			PROT_READ | PROT_WRITE
 # define MAP_SET			MAP_ANON | MAP_PRIVATE
-// # define ALIGN_LARGE(size)	((size) & (size - 1))
 
 # define GRN				"\033[32;m"
 # define RED				"\033[31;m"
 # define END				"\033[0m"
 
+typedef struct s_zone		t_zone;
 typedef struct s_block		t_block;
 typedef struct s_bin		t_bin;
 typedef unsigned int		t_ui;
@@ -109,6 +108,7 @@ void						coalesce(t_block *ptr);
 */
 
 void						display_list_of_blocks(t_block *list);
+t_type						which_type(size_t size);
 
 /*
 ** show_mem_alloc

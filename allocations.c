@@ -6,7 +6,7 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/27 11:13:50 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/04 17:51:35 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/09 16:46:58 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,6 +166,8 @@ static void		init_malloc(void)
 ** Returns a pointer to the payload (rounded to resolution of type) of a memory
 ** block.
 */
+
+/* PBLM: Voir si arrondi est > au max ou pas */
 
 void			*malloc_nts(size_t size)
 {

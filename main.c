@@ -6,7 +6,7 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/04 13:59:43 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/04 17:34:48 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/09 15:46:31 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,27 @@ void		test_loop_tiny(void)
 	}
 }
 
+void		test_loop_tiny_free(void)
+{
+	int		param = 1024;
+	int		max = 3000;
+	int		i;
+	char	*test1;
+	char	*test2;
+	char	*test3;
+
+	for (i = 0; i < max; i++) {
+		test1 = (char*)malloc_nts(param);
+		test1[0] = 'a';
+		test2 = (char*)malloc_nts(param);
+		test2[0] = 'a';
+		test3 = (char*)malloc_nts(param);
+		test3[0] = 'a';
+		free_nts(test1);
+		free_nts(test2);
+	}
+}
+
 void		test_nul(void)
 {
 	printf("HEADER_SIZE = %zu\n", HEADER_SIZE);
@@ -167,6 +188,7 @@ void		test_nul(void)
 	printf("ALIGN(33, 32) = %d\n", ALIGN(33, 32));
 	printf("ALIGN(0, 32) = %d\n", ALIGN(0, 32));
 	printf("ALIGN(1, 32) = %d\n", ALIGN(1, 32));
+	printf("%zu\n", SIZE_T_MAX);
 }
 
 int			main(void)
@@ -177,12 +199,14 @@ int			main(void)
 	// test_tiny();
 	// test_small();
 	// test_loop_small();
-	test_loop_large_random();
+	// test_loop_large_random();
 	// test_loop_tinysmall_random();
+	test_loop_tiny_free();
+	getchar();
 	// test_loop_tiny_random();
 	// test_loop_tiny();
-	show_mem_alloc();
-	// show_mem_alloc_all();
+	// show_mem_alloc();
+	show_mem_alloc_all();
 	// test_nul();
 	return (0);
 }

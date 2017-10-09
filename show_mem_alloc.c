@@ -6,7 +6,7 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/03 14:41:46 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/03 15:56:20 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/04 17:39:21 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,6 @@ void		show_mem_alloc(void)
 	printf("LARGE : %p\n", g_bin.large);
 	total += display_list(g_bin.large, 0);
 	printf("Total : %d octets\n", total);
+	/* Passer pas en int */
 	return ;
 }
