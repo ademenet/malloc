@@ -6,7 +6,7 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 14:00:13 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/09 18:42:57 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/10 17:06:15 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,6 @@ static void			free_large(t_block *ptr)
 }
 
 /*
-TODO
-- next and prev
-	- next && prev
-	- next == NULL && prev
-	- next && prev == NULL
-- detect if i'm on a zone border
-- detect free zone and munmap them
-*/
-
-/*
 ** See if the next or previous block belongs to the same zone.
 ** To do this, check whether the next or prev address is contiguous. If yes 
 ** returns 1, if no returns 0.
@@ -69,22 +59,17 @@ static int		belong_to_zone(t_block *cur, t_type type, t_block *next,
 		to_check = (type == TINY) ? \
 			(void *)next - ALIGN((HEADER_SIZE + cur->size), TINY_RES) : \
 			(void *)next - ALIGN((HEADER_SIZE + cur->size), SMALL_RES);
-		debug("next: to_check %p =? cur %p", to_check, cur);
 	}
 	else if (prev)
 	{
 		to_check = (type == TINY) ? \
 			(void *)prev + ALIGN((HEADER_SIZE + prev->size), TINY_RES) : \
 			(void *)prev + ALIGN((HEADER_SIZE + prev->size), SMALL_RES);
-		debug("prev: to_check %p =? cur %p", to_check, cur);
 	}
 	if (cur == to_check)
-	{
-		debug("It belongs to zone: %p == %p", cur, to_check);
-			return (1);
-	}
+		return (1);
 	else
-	return (0);
+		return (0);
 }
 
 /*
@@ -97,7 +82,6 @@ void			coalesce(t_block *ptr)
 	t_type		type;
 
 	type = which_type(ptr->size);
-	debug("type: \t%d", type);
 	if (ptr->next && ptr->next->free && belong_to_zone(ptr, type,
 		ptr->next, NULL))
 	{
@@ -112,11 +96,9 @@ void			coalesce(t_block *ptr)
 	if (ptr->prev && ptr->prev->free && belong_to_zone(ptr, type, NULL,
 		ptr->prev))
 	{
-		debug("%zu + %zu", ALIGN(ptr->prev->size + HEADER_SIZE, TINY_RES), ALIGN(ptr->size + HEADER_SIZE, TINY_RES));
 		ptr->prev->next = ptr->next;
 		ptr->prev->size = ALIGN(ptr->prev->size + HEADER_SIZE, TINY_RES) + \
 			ALIGN(ptr->size + HEADER_SIZE, TINY_RES) - HEADER_SIZE;
-		debug("= %zu", ptr->prev->size);
 		ptr->size = 0;
 		ptr->free = 0;
 		if (ptr->next)
@@ -138,7 +120,6 @@ void			free_nts(void *ptr)
 	/* que faire si j'ai pas de header ? */
 	tmp = (void*)ptr - HEADER_SIZE;
 	tmp->free = 1;
-	debug("--- tmp a free == %p", tmp);
 	if (tmp->size > SMALL_LIM)
 		free_large(tmp);
 	coalesce(tmp);
