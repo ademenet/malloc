@@ -59,34 +59,31 @@ TODO
 ** returns 1, if no returns 0.
 */
 
+static int		belong_to_zone(t_block *cur, t_type type, t_block *next,
+				t_block *prev)
 {
-	void		*tiny;
-	void		*small;
-	t_type		type;
+	void		*to_check;
 
-	type = which_type();
 	if (next)
 	{
-		tiny = (void *)cur + ALIGN((HEADER_SIZE + cur->size), TINY_RES);
-		tiny = (void *)prev + ALIGN((HEADER_SIZE + prev->size), TINY_RES);
-		debug("next: tiny %p =? next %p", tiny, next);
-		debug("next: small %p =? next %p", small, next);
-		if (tiny == next)
-		return (1);
-		if (small == next)
-		return (1);
+		to_check = (type == TINY) ? \
+			(void *)next - ALIGN((HEADER_SIZE + cur->size), TINY_RES) : \
+			(void *)next - ALIGN((HEADER_SIZE + cur->size), SMALL_RES);
+		debug("next: to_check %p =? cur %p", to_check, cur);
 	}
 	else if (prev)
 	{
-		small = (void *)prev + ALIGN((HEADER_SIZE + prev->size), SMALL_RES);
-		small = (void *)cur + ALIGN((HEADER_SIZE + cur->size), SMALL_RES);
-		debug("prev: tiny %p =? cur %p", tiny, cur);
-		debug("prev: small %p =? cur %p", small, cur);
-		if (tiny == cur)
-			return (1);
-		if (small == cur)
+		to_check = (type == TINY) ? \
+			(void *)prev + ALIGN((HEADER_SIZE + prev->size), TINY_RES) : \
+			(void *)prev + ALIGN((HEADER_SIZE + prev->size), SMALL_RES);
+		debug("prev: to_check %p =? cur %p", to_check, cur);
+	}
+	if (cur == to_check)
+	{
+		debug("It belongs to zone: %p == %p", cur, to_check);
 			return (1);
 	}
+	else
 	return (0);
 }
 
