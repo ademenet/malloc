@@ -6,7 +6,7 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/27 11:13:50 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/10 17:06:56 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/10 18:36:50 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ static t_block	*allocate(size_t size, t_block *list, t_type type)
 
 	true_size = (type == TINY) ? ALIGN((size + HEADER_SIZE), TINY_RES) : \
 		ALIGN((size + HEADER_SIZE), SMALL_RES);
+	debug("true_size = %zu", true_size);
 	if ((new_block = find_fit(list, size)) != NULL)
 	{
 		next_block = (void*)new_block + true_size;

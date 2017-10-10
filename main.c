@@ -6,7 +6,7 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/04 13:59:43 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/09 15:46:31 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/10 18:21:58 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,8 +154,8 @@ void		test_loop_tiny(void)
 
 void		test_loop_tiny_free(void)
 {
-	int		param = 1024;
-	int		max = 3000;
+	int		param = 634;
+	int		max = 100;
 	int		i;
 	char	*test1;
 	char	*test2;
@@ -170,6 +170,29 @@ void		test_loop_tiny_free(void)
 		test3[0] = 'a';
 		free_nts(test1);
 		free_nts(test2);
+	}
+}
+
+void		test_loop_tiny_free2(void)
+{
+	int		param = rand() % 1025;
+	int		max;
+	int		i;
+	char	*test;
+
+	max = rand() % 100;
+	for (i = 0; i < max; i++) {
+		param = (rand() % 1024) + 1;
+		debug("--- malloc_nts(%d)", param);		
+		test = (char*)malloc_nts(param);
+		test[0] = 'a';
+		if ((param % 3) == 0)
+		{
+			debug("--- free_nts(%p)", test);
+			free_nts(test);
+		}
+		display_list_of_blocks(g_bin.tiny);
+		getchar();
 	}
 }
 
@@ -201,8 +224,8 @@ int			main(void)
 	// test_loop_small();
 	// test_loop_large_random();
 	// test_loop_tinysmall_random();
-	test_loop_tiny_free();
-	getchar();
+	// test_loop_tiny_free();
+	test_loop_tiny_free2();
 	// test_loop_tiny_random();
 	// test_loop_tiny();
 	// show_mem_alloc();

@@ -6,7 +6,7 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 14:00:13 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/10 17:06:15 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/10 18:08:59 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,14 @@ static int		belong_to_zone(t_block *cur, t_type type, t_block *next,
 	if (next)
 	{
 		to_check = (type == TINY) ? \
-			(void *)next - ALIGN((HEADER_SIZE + cur->size), TINY_RES) : \
-			(void *)next - ALIGN((HEADER_SIZE + cur->size), SMALL_RES);
+		(void *)next - ALIGN((HEADER_SIZE + cur->size), TINY_RES) : \
+		(void *)next - ALIGN((HEADER_SIZE + cur->size), SMALL_RES);
 	}
 	else if (prev)
 	{
 		to_check = (type == TINY) ? \
-			(void *)prev + ALIGN((HEADER_SIZE + prev->size), TINY_RES) : \
-			(void *)prev + ALIGN((HEADER_SIZE + prev->size), SMALL_RES);
+		(void *)prev + ALIGN((HEADER_SIZE + prev->size), TINY_RES) : \
+		(void *)prev + ALIGN((HEADER_SIZE + prev->size), SMALL_RES);
 	}
 	if (cur == to_check)
 		return (1);
@@ -86,12 +86,15 @@ void			coalesce(t_block *ptr)
 		ptr->next, NULL))
 	{
 		ptr->next = ptr->next->next;
-		ptr->size = ALIGN(ptr->size + HEADER_SIZE, TINY_RES) + \
-			ALIGN(ptr->next->size + HEADER_SIZE, TINY_RES) - HEADER_SIZE;
-		ptr->next->size = 0;
-		ptr->next->free = 0;
-		if (ptr->next->next)
-			ptr->next->next->prev = ptr;
+		if (ptr->next)
+		{
+			ptr->size = ALIGN(ptr->size + HEADER_SIZE, TINY_RES) + \
+				ALIGN(ptr->next->size + HEADER_SIZE, TINY_RES) - HEADER_SIZE;
+			ptr->next->size = 0;
+			ptr->next->free = 0;
+			if (ptr->next->next)
+				ptr->next->next->prev = ptr;
+		}
 	}
 	if (ptr->prev && ptr->prev->free && belong_to_zone(ptr, type, NULL,
 		ptr->prev))
@@ -123,4 +126,5 @@ void			free_nts(void *ptr)
 	if (tmp->size > SMALL_LIM)
 		free_large(tmp);
 	coalesce(tmp);
+	// getchar();
 }
