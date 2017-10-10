@@ -12,6 +12,11 @@
 
 #include "malloc.h"
 
+/*
+** Look at which type (TINY, SMALL or LARGE) belongs to the size passed in 
+** parameter and returns a t_type of the type in question.
+*/
+
 t_type			which_type(size_t size)
 {
 	if (size > 0 && size <= TINY_LIM)

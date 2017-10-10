@@ -14,6 +14,11 @@
 
 /* Avec nouvelle fonction which type : refactoriser + refacto malloc */
 
+/*
+** Clears the large allocated memory and ensures integrity of the large 
+** allocation list.
+*/
+
 static void			free_large(t_block *ptr)
 {
 	t_block		*tmp;
@@ -48,7 +53,12 @@ TODO
 - detect free zone and munmap them
 */
 
-static int		belong_to_zone(t_block *cur, t_block *next, t_block *prev)
+/*
+** See if the next or previous block belongs to the same zone.
+** To do this, check whether the next or prev address is contiguous. If yes 
+** returns 1, if no returns 0.
+*/
+
 {
 	void		*tiny;
 	void		*small;
@@ -80,7 +90,9 @@ static int		belong_to_zone(t_block *cur, t_block *next, t_block *prev)
 	return (0);
 }
 
-/* PROB: je ne sais pas quel arrondi faire */
+/*
+** Merge adjacent free blocks together: coalesce.
+*/
 
 void			coalesce(t_block *ptr)
 {
