@@ -6,7 +6,7 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/27 11:13:50 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/09 16:46:58 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/10 17:06:56 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,14 @@ static void		*allocate_large(size_t size)
 
 /* TODO mettre la fonction de coalescence dans le parcours de la liste aussi */
 
-static void		*find_fit(t_block *list, size_t true_size)
+static void		*find_fit(t_block *list, size_t size)
 {
 	t_block 	*tmp;
 
 	tmp = list;
 	while (tmp)
 	{
-		if (tmp->free == 1 && true_size <= tmp->size)
+		if (tmp->free == 1 && size <= tmp->size)
 			return (tmp);
 		tmp = tmp->next;
 	}
@@ -113,11 +113,12 @@ static t_block	*allocate(size_t size, t_block *list, t_type type)
 
 	true_size = (type == TINY) ? ALIGN((size + HEADER_SIZE), TINY_RES) : \
 		ALIGN((size + HEADER_SIZE), SMALL_RES);
-	if ((new_block = find_fit(list, true_size)) != NULL)
+	if ((new_block = find_fit(list, size)) != NULL)
 	{
-		if ((new_block->size - true_size) > 0)
+		next_block = (void*)new_block + true_size;
+		if ((new_block->size - size) >= HEADER_SIZE && \
+			next_block != new_block->next)
 		{
-			next_block = (void*)new_block + true_size;
 			next_block->free = 1;
 			next_block->size = new_block->size - true_size;
 			next_block->prev = new_block;
@@ -166,8 +167,6 @@ static void		init_malloc(void)
 ** Returns a pointer to the payload (rounded to resolution of type) of a memory
 ** block.
 */
-
-/* PBLM: Voir si arrondi est > au max ou pas */
 
 void			*malloc_nts(size_t size)
 {
