@@ -94,20 +94,29 @@ static int		belong_to_zone(t_block *cur, t_type type, t_block *next,
 void			coalesce(t_block *ptr)
 {
 	size_t		new_size;
+	t_type		type;
 
-	if (ptr->next && ptr->next->free && belong_to_zone(ptr, ptr->next, NULL))
+	type = which_type(ptr->size);
+	debug("type: \t%d", type);
+	if (ptr->next && ptr->next->free && belong_to_zone(ptr, type,
+		ptr->next, NULL))
 	{
 		ptr->next = ptr->next->next;
-		ptr->size = ptr->size + ALIGN(ptr->next->size + HEADER_SIZE, TINY_RES);
+		ptr->size = ALIGN(ptr->size + HEADER_SIZE, TINY_RES) + \
+			ALIGN(ptr->next->size + HEADER_SIZE, TINY_RES) - HEADER_SIZE;
 		ptr->next->size = 0;
 		ptr->next->free = 0;
 		if (ptr->next->next)
 			ptr->next->next->prev = ptr;
 	}
-	if (ptr->prev && ptr->prev->free && belong_to_zone(ptr, NULL, ptr->prev))
+	if (ptr->prev && ptr->prev->free && belong_to_zone(ptr, type, NULL,
+		ptr->prev))
 	{
+		debug("%zu + %zu", ALIGN(ptr->prev->size + HEADER_SIZE, TINY_RES), ALIGN(ptr->size + HEADER_SIZE, TINY_RES));
 		ptr->prev->next = ptr->next;
-		ptr->prev->size = ptr->prev->size + ALIGN(ptr->size + HEADER_SIZE, TINY_RES);
+		ptr->prev->size = ALIGN(ptr->prev->size + HEADER_SIZE, TINY_RES) + \
+			ALIGN(ptr->size + HEADER_SIZE, TINY_RES) - HEADER_SIZE;
+		debug("= %zu", ptr->prev->size);
 		ptr->size = 0;
 		ptr->free = 0;
 		if (ptr->next)
