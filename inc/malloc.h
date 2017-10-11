@@ -6,7 +6,7 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/27 14:21:29 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/11 16:55:24 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/11 17:09:36 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # include <pthread.h>
 # include <stdio.h>
 # include <limits.h>
-# include "libft/libft.h"
 
 # include "dbg.h"
 # include <stdlib.h>

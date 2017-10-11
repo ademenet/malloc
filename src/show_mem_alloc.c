@@ -6,7 +6,7 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/03 14:41:46 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/10 14:54:52 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/11 17:14:37 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ static int	display_list(t_block *list, int show_all)
 
 void		show_mem_alloc_all(void)
 {
-	t_block	*tmp;
 	int		total;
 
 	total = 0;
@@ -58,7 +57,6 @@ void		show_mem_alloc_all(void)
 
 void		show_mem_alloc(void)
 {
-	t_block	*tmp;
 	int		total;
 
 	total = 0;

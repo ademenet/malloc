@@ -1,18 +1,41 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2017/10/11 16:56:30 by ademenet          #+#    #+#              #
+#    Updated: 2017/10/11 17:12:18 by ademenet         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+ifeq ($(HOSTTYPE),)
+	HOSTTYPE := $(shell uname -m)_$(shell uname -s)
+endif
+
 .PHONY: all test clean fclean re norme
 
 CC = gcc
 
 FLAGS = -Wall -Wextra -Werror
 
-CPP_FLAGS = -I include
+CPP_FLAGS = -I./inc
 
-NAME = libft_malloc_$HOSTTYPE.so
+NAME = malloc
 
 SRC_PATH = ./src
 INC_PATH = ./inc
 OBJ_PATH = ./obj
 
-SRC_NAME = main.c
+SRC_NAME =	allocations.c \
+			bonus.c \
+			free.c \
+			main.c \
+			malloc.c \
+			realloc.c \
+			show_mem_alloc.c \
+			utils.c
 
 INC_NAME = 
 
@@ -25,23 +48,19 @@ OBJ = $(addprefix $(OBJ_PATH)/,$(OBJ_NAME))
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	@make -C libft
-	@$(CC) $(FLAGS) -o $@ $^ libft/libft.a libft/ft_printf/libftprintf.a
-	@echo "\033[1;34mMalloc\t\t\033[1;33mCompilation\t\033[0;32m[OK]\033[0m"
+	$(CC) $(FLAGS) $^ -fPIC -shared -o libft_malloc_$(HOSTTYPE).so
+	ln -sf libft_malloc_$(HOSTTYPE).so libft_malloc.so
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
 	@mkdir $(OBJ_PATH) 2> /dev/null || true
-	@$(CC) -c -o $@ $<
+	$(CC) $(FLAGS) -c $< $(CPP_FLAGS) -o $@ 
 
 clean:
-	@make clean -C libft
-	@rm -rf ./obj correctme.sh
-	@echo "\033[1;34mMalloc\t\t\033[1;33mCleaning obj\t\033[0;32m[OK]\033[0m"
+	rm -rf ./obj
 
 fclean: clean
-	@make fclean -C libft
-	@rm -rf $(NAME)
-	@echo "\033[1;34mMalloc\t\t\033[1;33mCleaning lib\t\033[0;32m[OK]\033[0m"
+	rm -rf libft_malloc.so
+	rm -rf libft_malloc_$(HOSTTYPE).so
 
 re: fclean all
 

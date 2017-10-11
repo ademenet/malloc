@@ -6,7 +6,7 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/11 10:30:40 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/11 15:33:38 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/11 17:11:58 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static int		belong_to_zone(t_block *cur, t_block *next, t_block *prev)
 {
 	void		*to_check;
 
+	to_check = NULL;
 	if (next)
 		to_check = (void *)next - (HEADER_SIZE + cur->size);
 	else if (prev)
@@ -38,7 +39,6 @@ static int		belong_to_zone(t_block *cur, t_block *next, t_block *prev)
 
 void			coalesce(t_block *ptr)
 {
-	size_t		new_size;
 	t_type		type;
 
 	type = which_type(ptr->size);
