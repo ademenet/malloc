@@ -6,7 +6,7 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 14:00:13 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/11 11:34:54 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/11 15:12:09 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,6 @@ void			free_nts(void *ptr)
 	tmp->free = 1;
 	if (tmp->size > SMALL_LIM)
 		free_large(tmp);
-	// coalesce(tmp);
+	coalesce(tmp);
 	// getchar();
 }
