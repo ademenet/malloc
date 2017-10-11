@@ -6,7 +6,7 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/27 14:21:29 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/11 15:11:04 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/11 16:55:24 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,12 @@ void						*malloc_nts(size_t size);
 */
 
 void						free_nts(void *ptr);
+
+/*
+** realloc
+*/
+
+void						*realloc_nts(void *ptr, size_t size);
 
 /*
 ** utils
