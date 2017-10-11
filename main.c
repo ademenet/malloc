@@ -6,7 +6,7 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/04 13:59:43 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/10 18:21:58 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/11 15:03:19 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,13 +186,42 @@ void		test_loop_tiny_free2(void)
 		debug("--- malloc_nts(%d)", param);		
 		test = (char*)malloc_nts(param);
 		test[0] = 'a';
+		display_list_of_blocks(g_bin.tiny);
+		getchar();
+
 		if ((param % 3) == 0)
 		{
 			debug("--- free_nts(%p)", test);
 			free_nts(test);
+			display_list_of_blocks(g_bin.tiny);
+			getchar();
 		}
-		display_list_of_blocks(g_bin.tiny);
+	}
+}
+
+void		test_loop_small_free2(void)
+{
+	int		param = 1024 + (rand() % 3072);
+	int		max;
+	int		i;
+	char	*test;
+
+	max = rand() % 100;
+	for (i = 0; i < max; i++) {
+		param = 1024 + (rand() % 3072);
+		debug("--- malloc_nts(%d)", param);		
+		test = (char*)malloc_nts(param);
+		test[0] = 'a';
+		display_list_of_blocks(g_bin.small);
 		getchar();
+
+		if ((param % 3) == 0)
+		{
+			debug("--- free_nts(%p)", test);
+			free_nts(test);
+			display_list_of_blocks(g_bin.small);
+			getchar();
+		}
 	}
 }
 
@@ -225,7 +254,8 @@ int			main(void)
 	// test_loop_large_random();
 	// test_loop_tinysmall_random();
 	// test_loop_tiny_free();
-	test_loop_tiny_free2();
+	// test_loop_tiny_free2();
+	test_loop_small_free2();
 	// test_loop_tiny_random();
 	// test_loop_tiny();
 	// show_mem_alloc();
