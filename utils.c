@@ -6,7 +6,7 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 16:53:35 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/11 11:33:36 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/11 14:38:52 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void			display_list_of_blocks(t_block *list)
 {
 	t_block		*tmp;
 	t_type		type;
-	size_t			true_size;
+	// size_t			true_size;
 
 	tmp = list;
 	if (list == g_bin.tiny)
@@ -42,15 +42,15 @@ void			display_list_of_blocks(t_block *list)
 		type = LARGE;
 	while(tmp)
 	{
-		fprintf(stderr, "[ ");
+		// fprintf(stderr, "[ ");
 		if (tmp->free == 1)
-			fprintf(stderr, "%s%12p <| prev | cur %p | size %10zu | free %d | next |> %-12p%s",\
-					GRN, (void *)tmp->prev, (void*)tmp, tmp->size, tmp->free, (void *)tmp->next, END);
+			fprintf(stderr, "%s%12p <| %p  -- %zu -- %p -- %10zu -- = %10zu | free %d |> %-12p%s\n",\
+					GRN, (void *)tmp->prev, (void *)tmp, HEADER_SIZE, (void *)tmp + HEADER_SIZE, tmp->size, (tmp->size + HEADER_SIZE), tmp->free, (void *)tmp->next, END);
 		else if (tmp->free == 0)
-			fprintf(stderr, "%s%12p <| prev | cur %p | size %10zu | free %d | next |> %-12p%s",\
-				RED, (void *)tmp->prev, (void*)tmp, tmp->size, tmp->free, (void *)tmp->next, END);
-		true_size = (type == TINY) ? ALIGN((tmp->size + HEADER_SIZE), TINY_RES) : ALIGN((tmp->size + HEADER_SIZE), SMALL_RES);
-		fprintf(stderr, " ] %-10zu\n", true_size);
+			fprintf(stderr, "%s%12p <| %p  -- %zu -- %p -- %10zu -- = %10zu | free %d |> %-12p%s\n",\
+					RED, (void *)tmp->prev, (void *)tmp, HEADER_SIZE, (void *)tmp + HEADER_SIZE, tmp->size, (tmp->size + HEADER_SIZE), tmp->free, (void *)tmp->next, END);
+		// true_size = (type == TINY) ? ALIGN((tmp->size + HEADER_SIZE), TINY_RES) : ALIGN((tmp->size + HEADER_SIZE), SMALL_RES);
+		// fprintf(stderr, " ] %-10zu\n", true_size);
 		tmp = tmp->next;
 	}
 }
