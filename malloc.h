@@ -6,7 +6,7 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/27 14:21:29 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/11 10:36:32 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/11 15:11:04 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,12 @@ enum	e_type
 ** malloc
 */
 
-static void					*allocate_large(size_t size);
-static void					*find_fit(t_block *list, size_t true_size);
-static t_block				*extend_heap(t_block *list, size_t size, size_t true_size, t_type type);
-static t_block				*allocate(size_t size, t_block *list, t_type type);
-static void					init_malloc(void);
+void						init_malloc(void);
+
+/*
+** allocations
+*/
+
 void						*malloc_nts(size_t size);
 
 /*

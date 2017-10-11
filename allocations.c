@@ -6,7 +6,7 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/27 11:13:50 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/11 13:43:22 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/11 15:10:09 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ static void		*allocate_large(size_t size)
 	t_block		*new_large;
 	t_block		*tmp;
 
-	new_large = mmap(0, ALIGN((size + HEADER_SIZE), getpagesize()), PROT_SET, 
-					 MAP_SET, -1, 0);
+	new_large = mmap(0, ALIGN((size + HEADER_SIZE), getpagesize()), PROT_SET, \
+		MAP_SET, -1, 0);
 	new_large->size = size;
 	new_large->free = 0;
 	if (!g_bin.large)
@@ -48,14 +48,13 @@ static void		*allocate_large(size_t size)
 
 /*
 ** Finds the first fit block. Could be optimized with best fit: find the block
-** that fits the best to our demand.
+** that fits the best to our demand: size + our header. Returns the beginning of
+** the block aka the header.
 */
-
-/* TODO mettre la fonction de coalescence dans le parcours de la liste aussi */
 
 static void		*find_fit(t_block *list, size_t size)
 {
-	t_block 	*tmp;
+	t_block		*tmp;
 
 	tmp = list;
 	while (tmp)
@@ -72,13 +71,11 @@ static void		*find_fit(t_block *list, size_t size)
 ** linked to the old one in the same linked list.
 */
 
-static t_block	*extend_heap(t_block *list, size_t size, size_t true_size,
-	t_type type)
+static t_block	*extend_heap(t_block *list, size_t size, t_type type)
 {
 	t_block		*new_block;
 	t_block		*next_block;
 	t_block		*prev_block;
-	debug("--- extend_heap");
 
 	new_block = (type == TINY) ? mmap(0, TINY_ZONE, PROT_SET, MAP_SET, -1, 0) :\
 		mmap(0, SMALL_ZONE, PROT_SET, MAP_SET, -1, 0);
@@ -89,12 +86,12 @@ static t_block	*extend_heap(t_block *list, size_t size, size_t true_size,
 		prev_block = prev_block->next;
 	new_block->prev = prev_block;
 	prev_block->next = new_block;
-	next_block = (void*)new_block + true_size;
+	next_block = (void *)new_block + (HEADER_SIZE + size);
 	new_block->next = next_block;
 	if (type == TINY)
-		next_block->size = TINY_ZONE - true_size;
+		next_block->size = TINY_ZONE - (HEADER_SIZE + size);
 	else if (type == SMALL)
-		next_block->size = SMALL_ZONE - true_size;
+		next_block->size = SMALL_ZONE - (HEADER_SIZE + size);
 	next_block->free = 1;
 	next_block->prev = new_block;
 	next_block->next = NULL;
@@ -108,78 +105,30 @@ static t_block	*extend_heap(t_block *list, size_t size, size_t true_size,
 
 static t_block	*allocate(size_t size, t_block *list, t_type type)
 {
-	size_t		true_size;
 	t_block		*new_block;
 	t_block		*next_block;
 
-	true_size = (type == TINY) ? ALIGN((size + HEADER_SIZE), TINY_RES) : \
-		ALIGN((size + HEADER_SIZE), SMALL_RES);
-	debug("true_size = %zu", true_size);
 	if ((new_block = find_fit(list, size)) != NULL)
 	{
-		next_block = (void *)new_block + true_size;
-		// if ((new_block->size - size) >= HEADER_SIZE && 
-		if (((type == TINY && (new_block->size - true_size) > TINY_RES) || \
-			(type == SMALL && (new_block->size - true_size) > SMALL_RES)) && \
-			(new_block->size > true_size) && \
+		next_block = (void *)new_block + (HEADER_SIZE + size);
+		if ((new_block->size - (HEADER_SIZE + size)) > (HEADER_SIZE + 1) && \
+			(HEADER_SIZE + size) <= new_block->size && \
 			(void *)next_block != (void *)new_block->next)
 		{
-			// debug(">>> Je rentre !!!");
-			// if ((type == TINY && (new_block->size - true_size) > TINY_RES) || 
-			// (type == SMALL && (new_block->size - true_size) > SMALL_RES))
-			// {
-				next_block->size = new_block->size - true_size;
-				debug("%zu = %zu - %zu", next_block->size, new_block->size, true_size);
-				next_block->free = 1;
-				next_block->prev = new_block;
-				next_block->next = new_block->next;
-				new_block->next = next_block;
-			// }
-			// else
-			// 	size += next_block->size;
+			next_block->size = new_block->size - (HEADER_SIZE + size);
+			next_block->free = 1;
+			next_block->prev = new_block;
+			next_block->next = new_block->next;
+			new_block->next = next_block;
 		}
 		else
-		{
-			debug("%zu + %zu", size, next_block->size);
-			size += new_block->size - true_size;
-			debug("= %zu", size);
-		}
+			size += new_block->size - size;
 		new_block->size = size;
 		new_block->free = 0;
-		debug("new_block->size %zu, next_block->size %zu", new_block->size, next_block->size);
 	}
 	else
-		new_block = extend_heap(list, size, true_size, type);
+		new_block = extend_heap(list, size, type);
 	return (new_block);
-}
-
-/*
-** Initiates malloc's tiny and small pages.
-*/
-
-static void		init_malloc(void)
-{
-	t_block		*init;
-
-	if (!g_bin.tiny)
-	{
-		init = mmap(0, TINY_ZONE, PROT_SET, MAP_SET, -1, 0);
-		init->size = TINY_ZONE - HEADER_SIZE;
-		init->free = 1;
-		init->prev = NULL;
-		init->next = NULL;
-		g_bin.tiny = init;
-	}
-	if (!g_bin.small)
-	{
-		init = mmap(0, SMALL_ZONE, PROT_SET, MAP_SET, -1, 0);
-		init->size = SMALL_ZONE - HEADER_SIZE;
-		init->free = 1;
-		init->prev = NULL;
-		init->next = NULL;
-		g_bin.small = init;
-	}
-	return ;
 }
 
 /*
