@@ -6,7 +6,7 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/27 11:13:50 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/10 18:36:50 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/11 13:43:22 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ static t_block	*extend_heap(t_block *list, size_t size, size_t true_size,
 	t_block		*new_block;
 	t_block		*next_block;
 	t_block		*prev_block;
+	debug("--- extend_heap");
 
 	new_block = (type == TINY) ? mmap(0, TINY_ZONE, PROT_SET, MAP_SET, -1, 0) :\
 		mmap(0, SMALL_ZONE, PROT_SET, MAP_SET, -1, 0);
@@ -116,18 +117,36 @@ static t_block	*allocate(size_t size, t_block *list, t_type type)
 	debug("true_size = %zu", true_size);
 	if ((new_block = find_fit(list, size)) != NULL)
 	{
-		next_block = (void*)new_block + true_size;
-		if ((new_block->size - size) >= HEADER_SIZE && \
-			next_block != new_block->next)
+		next_block = (void *)new_block + true_size;
+		// if ((new_block->size - size) >= HEADER_SIZE && 
+		if (((type == TINY && (new_block->size - true_size) > TINY_RES) || \
+			(type == SMALL && (new_block->size - true_size) > SMALL_RES)) && \
+			(new_block->size > true_size) && \
+			(void *)next_block != (void *)new_block->next)
 		{
-			next_block->free = 1;
-			next_block->size = new_block->size - true_size;
-			next_block->prev = new_block;
-			next_block->next = new_block->next;
-			new_block->next = next_block;
+			// debug(">>> Je rentre !!!");
+			// if ((type == TINY && (new_block->size - true_size) > TINY_RES) || 
+			// (type == SMALL && (new_block->size - true_size) > SMALL_RES))
+			// {
+				next_block->size = new_block->size - true_size;
+				debug("%zu = %zu - %zu", next_block->size, new_block->size, true_size);
+				next_block->free = 1;
+				next_block->prev = new_block;
+				next_block->next = new_block->next;
+				new_block->next = next_block;
+			// }
+			// else
+			// 	size += next_block->size;
+		}
+		else
+		{
+			debug("%zu + %zu", size, next_block->size);
+			size += new_block->size - true_size;
+			debug("= %zu", size);
 		}
 		new_block->size = size;
 		new_block->free = 0;
+		debug("new_block->size %zu, next_block->size %zu", new_block->size, next_block->size);
 	}
 	else
 		new_block = extend_heap(list, size, true_size, type);
