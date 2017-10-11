@@ -6,7 +6,7 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/27 14:21:29 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/09 18:42:05 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/11 10:36:32 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,14 +94,11 @@ static t_block				*allocate(size_t size, t_block *list, t_type type);
 static void					init_malloc(void);
 void						*malloc_nts(size_t size);
 
-void						free_nts(void *ptr);
-
 /*
 ** free
 */
 
 void						free_nts(void *ptr);
-void						coalesce(t_block *ptr);
 
 /*
 ** utils
@@ -116,5 +113,11 @@ t_type						which_type(size_t size);
 
 void						show_mem_alloc(void);
 void						show_mem_alloc_all(void);
+
+/*
+** bonus
+*/
+
+void						coalesce(t_block *ptr);
 
 #endif
