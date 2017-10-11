@@ -178,9 +178,9 @@ void			*malloc_nts(size_t size)
 		size = 1;
 	if (size >= SIZE_T_MAX)
 		size = SIZE_T_MAX - HEADER_SIZE;
-	if (size <= TINY_LIM)
+	if (size > 0 && size <= TINY_LIM)
 		new = allocate(size, g_bin.tiny, TINY);
-	else if (size <= SMALL_LIM)
+	else if (size > TINY_LIM && size <= SMALL_LIM)
 		new = allocate(size, g_bin.small, SMALL);
 	else
 		new = allocate_large(size);
