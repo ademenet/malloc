@@ -14,8 +14,6 @@ ifeq ($(HOSTTYPE),)
 	HOSTTYPE := $(shell uname -m)_$(shell uname -s)
 endif
 
-.PHONY: all test clean fclean re norme
-
 CC = gcc
 
 FLAGS = -Wall -Wextra -Werror
@@ -48,12 +46,12 @@ OBJ = $(addprefix $(OBJ_PATH)/,$(OBJ_NAME))
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(FLAGS) $^ -fPIC -shared -o libft_malloc_$(HOSTTYPE).so
+	$(CC) $(FLAGS) $^ -shared -o libft_malloc_$(HOSTTYPE).so
 	ln -sf libft_malloc_$(HOSTTYPE).so libft_malloc.so
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
 	@mkdir $(OBJ_PATH) 2> /dev/null || true
-	$(CC) $(FLAGS) -c $< $(CPP_FLAGS) -o $@ 
+	$(CC) $(FLAGS) -c $< $(CPP_FLAGS) -o $@ -fPIC
 
 clean:
 	rm -rf ./obj
@@ -67,3 +65,5 @@ re: fclean all
 norme:
 	@norminette */*[hc]
 	@norminette *[hc]
+
+.PHONY: all test clean fclean re norme
