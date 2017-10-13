@@ -6,11 +6,49 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 16:53:35 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/11 14:38:52 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/13 18:22:08 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
+
+/* TODO
+-putnbr
+-putnbrhex
+-ft_putstr
+*/
+
+void			ft_putstr(char *str)
+{
+	int			i;
+	char		*ptr;
+
+	ptr = str;
+	i = 0;
+	while(ptr && *ptr && i++)
+		++ptr;
+	write(1, s, i);
+	return ;
+}
+
+void			ft_putnbr(size_t nb, int base)
+{
+	static char	*convert = "0123456789ABCDEF";
+	int			converted[64];
+	size_t		i;
+	size_t		nb_cp;
+
+	i = 0;
+	nb_cp = nb;
+	while (nb_cp > 0)
+	{
+		converted[i++] = nb_cp % base;
+		nb_cp /= base;
+	}
+	while (i >= 0)
+		write(1, convert[converted[i--]], 1);
+	return ;
+}
 
 /*
 ** Look at which type (TINY, SMALL or LARGE) belongs to the size passed in 
