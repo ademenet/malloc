@@ -6,17 +6,11 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 16:53:35 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/13 18:22:08 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/17 19:45:01 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
-
-/* TODO
--putnbr
--putnbrhex
--ft_putstr
-*/
 
 void			ft_putstr(char *str)
 {
@@ -25,18 +19,19 @@ void			ft_putstr(char *str)
 
 	ptr = str;
 	i = 0;
-	while(ptr && *ptr && i++)
-		++ptr;
-	write(1, s, i);
+	while(ptr && *ptr++)
+		++i;
+	write(1, str, i);
 	return ;
 }
 
-void			ft_putnbr(size_t nb, int base)
+void			ft_putnbrbase(size_t nb, int base)
 {
-	static char	*convert = "0123456789ABCDEF";
+	static char	convert[16] = {'0', '1', '2', '3', '4', '5', '6', '7', '8',
+		'9', 'A', 'B', 'C', 'D', 'E', 'F'};
 	int			converted[64];
-	size_t		i;
-	size_t		nb_cp;
+	int			i;
+	int			nb_cp;
 
 	i = 0;
 	nb_cp = nb;
@@ -45,8 +40,9 @@ void			ft_putnbr(size_t nb, int base)
 		converted[i++] = nb_cp % base;
 		nb_cp /= base;
 	}
+	i--;
 	while (i >= 0)
-		write(1, convert[converted[i--]], 1);
+		write(1, &convert[converted[i--]], 1);
 	return ;
 }
 
