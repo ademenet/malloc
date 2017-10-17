@@ -6,7 +6,7 @@
 #    By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/10/11 16:56:30 by ademenet          #+#    #+#              #
-#    Updated: 2017/10/11 17:12:18 by ademenet         ###   ########.fr        #
+#    Updated: 2017/10/13 17:12:30 by ademenet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,6 @@ OBJ_PATH = ./obj
 SRC_NAME =	allocations.c \
 			bonus.c \
 			free.c \
-			main.c \
 			malloc.c \
 			realloc.c \
 			show_mem_alloc.c \
@@ -46,7 +45,7 @@ OBJ = $(addprefix $(OBJ_PATH)/,$(OBJ_NAME))
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(FLAGS) $^ -shared -o libft_malloc_$(HOSTTYPE).so
+	$(CC) $(FLAGS) -shared -o libft_malloc_$(HOSTTYPE).so $^
 	ln -sf libft_malloc_$(HOSTTYPE).so libft_malloc.so
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c

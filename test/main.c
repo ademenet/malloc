@@ -6,7 +6,7 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/04 13:59:43 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/11 15:03:19 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/17 19:42:42 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,6 +243,19 @@ void		test_nul(void)
 	printf("%zu\n", SIZE_T_MAX);
 }
 
+void		test_putnbr(void)
+{
+	// ft_putnbrbase((size_t)123456789, (int)10);
+	// ft_putnbrbase((size_t)2147483647, (int)10);
+	// ft_putnbrbase((size_t)2147483648, (int)10);
+	// ft_putnbrbase((size_t)15, (int)16);
+	// ft_putstr("Salut NOUNOU !\n");
+	malloc_nts(12);
+	// show_alloc_mem();
+	show_alloc_mem_all();
+	return ;
+}
+
 int			main(void)
 {
 	srand(time(NULL));
@@ -255,11 +268,12 @@ int			main(void)
 	// test_loop_tinysmall_random();
 	// test_loop_tiny_free();
 	// test_loop_tiny_free2();
-	test_loop_small_free2();
+	// test_loop_small_free2();
 	// test_loop_tiny_random();
 	// test_loop_tiny();
 	// show_mem_alloc();
-	show_mem_alloc_all();
+	// show_mem_alloc_all();
 	// test_nul();
+	test_putnbr();
 	return (0);
 }

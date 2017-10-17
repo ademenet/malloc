@@ -6,7 +6,7 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/27 14:21:29 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/11 17:09:36 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/17 19:17:07 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,13 +112,15 @@ void						*realloc_nts(void *ptr, size_t size);
 
 void						display_list_of_blocks(t_block *list);
 t_type						which_type(size_t size);
+void						ft_putstr(char *str);
+void						ft_putnbrbase(size_t nb, int base);
 
 /*
 ** show_mem_alloc
 */
 
-void						show_mem_alloc(void);
-void						show_mem_alloc_all(void);
+void						show_alloc_mem(void);
+void						show_alloc_mem_all(void);
 
 /*
 ** bonus
