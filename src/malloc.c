@@ -6,11 +6,13 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/11 15:09:30 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/11 15:10:06 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/17 19:58:15 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
+
+pthread_mutex_t	g_fastmutex = PTHREAD_MUTEX_INITIALIZER;
 
 /*
 ** Initiates malloc's tiny and small pages.
@@ -40,3 +42,5 @@ void			init_malloc(void)
 	}
 	return ;
 }
+
+
