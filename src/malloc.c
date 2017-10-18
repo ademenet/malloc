@@ -6,7 +6,7 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/11 15:09:30 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/17 19:58:15 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/18 10:09:10 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,29 @@ void			init_malloc(void)
 	return ;
 }
 
+void			*malloc(size_t size)
+{
+	void		*ptr;
 
+	pthread_mutex_lock(&g_fastmutex);
+	ptr = malloc_nts(size);
+	pthread_mutex_unlock(&g_fastmutex);
+	return (ptr);
+}
+
+void			free(void *ptr)
+{
+	pthread_mutex_lock(&g_fastmutex);
+	free_nts(ptr);
+	pthread_mutex_unlock(&g_fastmutex);
+}
+
+void			*realloc(void *ptr, size_t size)
+{
+	void		*ptr;
+
+	pthread_mutex_lock(&g_fastmutex);
+	ptr = realloc_nts(ptr, size);
+	pthread_mutex_unlock(&g_fastmutex);
+	return (ptr);
+}

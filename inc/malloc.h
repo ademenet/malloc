@@ -6,7 +6,7 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/27 14:21:29 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/17 19:17:07 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/18 10:10:49 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,9 @@ enum	e_type
 */
 
 void						init_malloc(void);
+void						*malloc(size_t size);
+void						free(void *ptr);
+void						*realloc(void *ptr, size_t size);
 
 /*
 ** allocations
