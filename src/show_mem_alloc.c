@@ -6,7 +6,7 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/03 14:41:46 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/17 19:44:38 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/18 17:25:13 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void		show_alloc_mem_all(void)
 {
 	int		total;
 
+	pthread_mutex_lock(&g_fastmutex);
 	total = 0;
 	ft_putstr("TINY : 0x");
 	ft_putnbrbase((size_t)g_bin.tiny, 16);
@@ -87,6 +88,7 @@ void		show_alloc_mem_all(void)
 	ft_putstr("Total : ");
 	ft_putnbrbase((size_t)total, 10);
 	ft_putstr(" octets\n");
+	pthread_mutex_unlock(&g_fastmutex);
 	return ;
 }
 
@@ -94,6 +96,7 @@ void		show_alloc_mem(void)
 {
 	size_t	total;
 
+	pthread_mutex_lock(&g_fastmutex);
 	total = 0;
 	ft_putstr("TINY : 0x");
 	ft_putnbrbase((size_t)g_bin.tiny, 16);
@@ -110,5 +113,6 @@ void		show_alloc_mem(void)
 	ft_putstr("Total : ");
 	ft_putnbrbase((size_t)total, 10);
 	ft_putstr(" octets\n");
+	pthread_mutex_unlock(&g_fastmutex);
 	return ;
 }
