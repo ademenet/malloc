@@ -6,7 +6,7 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 14:00:36 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/11 17:14:04 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/18 13:47:42 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,15 @@ void			*realloc_nts(void *ptr, size_t size)
 	t_block		*tmp;
 	t_block		*new;
 
-	
 	if (ptr == NULL && size > 0)
+		// return (malloc(size));
 		return (malloc_nts(size));
 	if (ptr != NULL && size == 0)
 	{
 		/* Pas sur... */
 		free(ptr);
 		return (malloc_nts(HEADER_SIZE + 1));		
+		// return (malloc(HEADER_SIZE + 1));		
 	}
 	tmp = (void *)ptr - HEADER_SIZE;
 	if (tmp && tmp->next)
@@ -69,8 +70,10 @@ void			*realloc_nts(void *ptr, size_t size)
 		else
 		{
 			new = malloc_nts(size);
+			// new = malloc(size);
 			ft_memcpy(new, ptr, tmp->size);
-			free(ptr);
+			free_nts(ptr);
+			// free(ptr);
 		}
 		return (tmp);
 	}
