@@ -6,7 +6,7 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/27 14:21:29 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/18 18:07:26 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/18 18:29:11 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ enum						e_type
 void						*malloc(size_t size);
 void						free(void *ptr);
 void						*realloc(void *ptr, size_t size);
+void						*reallocf(void *ptr, size_t size);
+void						*calloc(size_t count, size_t size);
 
 /*
 ** allocations
@@ -126,5 +128,6 @@ void						show_alloc_mem_all(void);
 */
 
 void						coalesce(t_block *ptr);
+void						*calloc_nts(size_t count, size_t size);
 
 #endif

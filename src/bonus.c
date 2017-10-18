@@ -6,7 +6,7 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/11 10:30:40 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/18 13:56:41 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/18 18:29:21 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,26 @@ void			coalesce(t_block *ptr)
 			ptr->next->prev = ptr->prev;
 	}
 	return ;
+}
+
+static void		ft_bzero(void *s, size_t n)
+{
+	unsigned char	*ps;
+
+	ps = s;
+	while (n--)
+	{
+		*ps++ = '\0';
+	}
+}
+
+void			*calloc_nts(size_t count, size_t size)
+{
+	size_t		true_size;
+	void		*ptr;
+
+	true_size = count * size;
+	ptr = malloc_nts(true_size);
+	ft_bzero(ptr, true_size);
+	return (ptr);
 }
