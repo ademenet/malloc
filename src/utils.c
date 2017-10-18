@@ -6,7 +6,7 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 16:53:35 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/17 19:45:01 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/18 14:01:53 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void			ft_putstr(char *str)
 
 	ptr = str;
 	i = 0;
-	while(ptr && *ptr++)
+	while (ptr && *ptr++)
 		++i;
 	write(1, str, i);
 	return ;
@@ -47,7 +47,7 @@ void			ft_putnbrbase(size_t nb, int base)
 }
 
 /*
-** Look at which type (TINY, SMALL or LARGE) belongs to the size passed in 
+** Look at which type (TINY, SMALL or LARGE) belongs to the size passed in
 ** parameter and returns a t_type of the type in question.
 */
 
@@ -61,11 +61,43 @@ t_type			which_type(size_t size)
 		return (LARGE);
 }
 
+/*
+** Make sure that the pointer is in the list of our malloc. Without this check,
+** the free function risks a segfault.
+*/
+
+int				check_in_list(t_block *ptr)
+{
+	t_block		*tmp;
+
+	tmp = g_bin.tiny;
+	while (tmp)
+	{
+		if ((void *)tmp == (void *)ptr)
+			return (1);
+		tmp = tmp->next;
+	}
+	tmp = g_bin.small;
+	while (tmp)
+	{
+		if ((void *)tmp == (void *)ptr)
+			return (1);
+		tmp = tmp->next;
+	}
+	tmp = g_bin.large;
+	while (tmp)
+	{
+		if ((void *)tmp == (void *)ptr)
+			return (1);
+		tmp = tmp->next;
+	}
+	return (0);
+}
+
 void			display_list_of_blocks(t_block *list)
 {
 	t_block		*tmp;
 	t_type		type;
-	// size_t			true_size;
 
 	tmp = list;
 	if (list == g_bin.tiny)
@@ -76,15 +108,12 @@ void			display_list_of_blocks(t_block *list)
 		type = LARGE;
 	while(tmp)
 	{
-		// fprintf(stderr, "[ ");
 		if (tmp->free == 1)
 			fprintf(stderr, "%s%12p <| %p  -- %zu -- %p -- %10zu -- = %10zu | free %d |> %-12p%s\n",\
 					GRN, (void *)tmp->prev, (void *)tmp, HEADER_SIZE, (void *)tmp + HEADER_SIZE, tmp->size, (tmp->size + HEADER_SIZE), tmp->free, (void *)tmp->next, END);
 		else if (tmp->free == 0)
 			fprintf(stderr, "%s%12p <| %p  -- %zu -- %p -- %10zu -- = %10zu | free %d |> %-12p%s\n",\
 					RED, (void *)tmp->prev, (void *)tmp, HEADER_SIZE, (void *)tmp + HEADER_SIZE, tmp->size, (tmp->size + HEADER_SIZE), tmp->free, (void *)tmp->next, END);
-		// true_size = (type == TINY) ? ALIGN((tmp->size + HEADER_SIZE), TINY_RES) : ALIGN((tmp->size + HEADER_SIZE), SMALL_RES);
-		// fprintf(stderr, " ] %-10zu\n", true_size);
 		tmp = tmp->next;
 	}
 }

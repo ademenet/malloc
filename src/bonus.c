@@ -6,7 +6,7 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/11 10:30:40 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/11 17:11:58 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/18 13:56:41 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /*
 ** See if the next or previous block belongs to the same zone.
-** To do this, check whether the next or prev address is contiguous. If yes 
+** To do this, check whether the next or prev address is contiguous. If yes
 ** returns 1, if no returns 0.
 */
 
@@ -58,4 +58,3 @@ void			coalesce(t_block *ptr)
 	}
 	return ;
 }
-

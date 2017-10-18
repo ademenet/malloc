@@ -6,7 +6,7 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/27 14:21:29 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/18 10:10:49 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/18 14:02:55 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,12 @@
 # include <sys/resource.h>
 # include <sys/mman.h>
 # include <pthread.h>
-# include <stdio.h>
 # include <limits.h>
 
 # include "dbg.h"
+# include <stdio.h>
 # include <stdlib.h>
+# define DBG ft_putstr((char *)__func__); ft_putstr(" in "); ft_putstr(__FILE__); ft_putstr(" at line : "); ft_putnbrbase(__LINE__, 10); ft_putstr("\n")
 
 # define MALLOC_MAX			((size_t)-1 - (2 * getpagesize()))
 
@@ -113,10 +114,11 @@ void						*realloc_nts(void *ptr, size_t size);
 ** utils
 */
 
-void						display_list_of_blocks(t_block *list);
-t_type						which_type(size_t size);
 void						ft_putstr(char *str);
 void						ft_putnbrbase(size_t nb, int base);
+t_type						which_type(size_t size);
+int							check_in_list(t_block *ptr);
+void						display_list_of_blocks(t_block *list);
 
 /*
 ** show_mem_alloc
