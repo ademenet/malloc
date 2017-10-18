@@ -6,7 +6,7 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/27 14:21:29 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/18 14:02:55 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/18 16:36:37 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ void						free_nts(void *ptr);
 ** realloc
 */
 
+void						*reallocf_nts(void *ptr, size_t size);
 void						*realloc_nts(void *ptr, size_t size);
 
 /*
