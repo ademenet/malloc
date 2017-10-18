@@ -38,7 +38,7 @@ static void			free_large(t_block *ptr)
 			tmp->prev->next = tmp->next;
 		if ((errno = munmap(ptr, (ALIGN((ptr->size + HEADER_SIZE), \
 			getpagesize())))))
-			exit(errno);
+			return ;
 	}
 	return ;
 }
