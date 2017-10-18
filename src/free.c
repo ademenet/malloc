@@ -6,16 +6,47 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 14:00:13 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/11 15:12:09 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/18 13:47:34 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 
-/* Avec nouvelle fonction which type : refactoriser + refacto malloc */
+/*
+** Make sure that the pointer is in the list of our malloc. Without this check,
+** the free function risks a segfault.
+*/
+
+static int			check_in_list(t_block *ptr)
+{
+	t_block			*tmp;
+
+	tmp = g_bin.tiny;
+	while (tmp)
+	{
+		if ((void *)tmp == (void *)ptr)
+			return (1);
+		tmp = tmp->next;
+	}
+	tmp = g_bin.small;
+	while (tmp)
+	{
+		if ((void *)tmp == (void *)ptr)
+			return (1);
+		tmp = tmp->next;
+	}
+	tmp = g_bin.large;
+	while (tmp)
+	{
+		if ((void *)tmp == (void *)ptr)
+			return (1);
+		tmp = tmp->next;
+	}
+	return (0);
+}
 
 /*
-** Clears the large allocated memory and ensures integrity of the large 
+** Clears the large allocated memory and ensures integrity of the large
 ** allocation list.
 */
 
@@ -53,11 +84,12 @@ void			free_nts(void *ptr)
 
 	if (!ptr)
 		return ;
-	/* que faire si j'ai pas de header ? */
 	tmp = (void *)ptr - HEADER_SIZE;
-	tmp->free = 1;
-	if (tmp->size > SMALL_LIM)
-		free_large(tmp);
-	coalesce(tmp);
-	// getchar();
+	if (check_in_list(tmp))
+	{
+		tmp->free = 1;
+		if (tmp->size > SMALL_LIM)
+			free_large(tmp);
+		coalesce(tmp);
+	}
 }
