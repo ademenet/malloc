@@ -6,7 +6,7 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/27 14:21:29 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/18 17:17:27 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/18 17:24:23 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ enum						e_type
 ** malloc
 */
 
-void						init_malloc(void);
 void						*malloc(size_t size);
 void						free(void *ptr);
 void						*realloc(void *ptr, size_t size);
@@ -103,8 +102,7 @@ void						free_nts(void *ptr);
 ** realloc
 */
 
-void						*reallocf_nts(void *ptr, size_t size);
-void						*realloc_nts(void *ptr, size_t size);
+void						*realloc_nts(void *ptr, size_t size, int f_free);
 
 /*
 ** utils
@@ -112,6 +110,7 @@ void						*realloc_nts(void *ptr, size_t size);
 
 void						ft_putstr(char *str);
 void						ft_putnbrbase(size_t nb, int base);
+void						init_malloc(void);
 t_type						which_type(size_t size);
 int							check_in_list(t_block *ptr);
 

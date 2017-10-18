@@ -6,7 +6,7 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 14:00:36 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/18 17:13:16 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/18 17:23:17 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,30 +67,12 @@ static void		*reallocate(t_block *tmp, void *ptr, size_t size, int f_free)
 	return (NULL);
 }
 
-void			*reallocf_nts(void *ptr, size_t size)
-{
-	t_block		*tmp;
-
-	if (ptr == NULL && size > 0)
-		return (malloc_nts(size));
-	if (ptr != NULL && size == 0)
-	{
-		if (check_in_list(ptr))
-			free(ptr);
-		return (malloc_nts(HEADER_SIZE + 1));
-	}
-	tmp = (void *)ptr - HEADER_SIZE;
-	if (check_in_list(tmp))
-		return (reallocate(tmp, ptr, size, 1));
-	return (NULL);
-}
-
 /*
 ** Main realloc function not thread safe (NTS).
 ** Requests to resize payload region pointed to by ptr to size.
 */
 
-void			*realloc_nts(void *ptr, size_t size)
+void			*realloc_nts(void *ptr, size_t size, int f_free)
 {
 	t_block		*tmp;
 
@@ -104,6 +86,6 @@ void			*realloc_nts(void *ptr, size_t size)
 	}
 	tmp = (void *)ptr - HEADER_SIZE;
 	if (check_in_list(tmp))
-		return (reallocate(tmp, ptr, size, 0));
+		return (reallocate(tmp, ptr, size, f_free));
 	return (NULL);
 }
