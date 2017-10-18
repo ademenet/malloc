@@ -6,7 +6,7 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/27 14:21:29 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/18 16:36:37 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/18 17:17:27 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,6 @@
 # include <sys/mman.h>
 # include <pthread.h>
 # include <limits.h>
-
-# include "dbg.h"
-# include <stdio.h>
-# include <stdlib.h>
-# define DBG ft_putstr((char *)__func__); ft_putstr(" in "); ft_putstr(__FILE__); ft_putstr(" at line : "); ft_putnbrbase(__LINE__, 10); ft_putstr("\n")
 
 # define MALLOC_MAX			((size_t)-1 - (2 * getpagesize()))
 
@@ -57,7 +52,7 @@ extern pthread_mutex_t		g_fastmutex;
 ** Structure of one block.
 */
 
-struct	s_block 
+struct						s_block
 {
 	size_t					size;
 	t_ui					free;
@@ -69,14 +64,14 @@ struct	s_block
 ** This is our main global maintaining bins: tiny, small and large.
 */
 
-struct	s_bin
+struct						s_bin
 {
 	t_block					*tiny;
 	t_block					*small;
 	t_block					*large;
 };
 
-enum	e_type
+enum						e_type
 {
 	TINY,
 	SMALL,
@@ -119,7 +114,6 @@ void						ft_putstr(char *str);
 void						ft_putnbrbase(size_t nb, int base);
 t_type						which_type(size_t size);
 int							check_in_list(t_block *ptr);
-void						display_list_of_blocks(t_block *list);
 
 /*
 ** show_mem_alloc

@@ -6,7 +6,7 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/11 15:09:30 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/18 13:47:17 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/18 13:56:06 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,4 @@ void			*realloc(void *ptr, size_t size)
 	ptr_ts = realloc_nts(ptr, size);
 	pthread_mutex_unlock(&g_fastmutex);
 	return (ptr_ts);
- }
+}

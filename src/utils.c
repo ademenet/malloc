@@ -6,7 +6,7 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 16:53:35 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/18 14:01:53 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/18 17:14:07 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,28 +92,4 @@ int				check_in_list(t_block *ptr)
 		tmp = tmp->next;
 	}
 	return (0);
-}
-
-void			display_list_of_blocks(t_block *list)
-{
-	t_block		*tmp;
-	t_type		type;
-
-	tmp = list;
-	if (list == g_bin.tiny)
-		type = TINY;
-	else if (list == g_bin.small)
-		type = SMALL;
-	else
-		type = LARGE;
-	while(tmp)
-	{
-		if (tmp->free == 1)
-			fprintf(stderr, "%s%12p <| %p  -- %zu -- %p -- %10zu -- = %10zu | free %d |> %-12p%s\n",\
-					GRN, (void *)tmp->prev, (void *)tmp, HEADER_SIZE, (void *)tmp + HEADER_SIZE, tmp->size, (tmp->size + HEADER_SIZE), tmp->free, (void *)tmp->next, END);
-		else if (tmp->free == 0)
-			fprintf(stderr, "%s%12p <| %p  -- %zu -- %p -- %10zu -- = %10zu | free %d |> %-12p%s\n",\
-					RED, (void *)tmp->prev, (void *)tmp, HEADER_SIZE, (void *)tmp + HEADER_SIZE, tmp->size, (tmp->size + HEADER_SIZE), tmp->free, (void *)tmp->next, END);
-		tmp = tmp->next;
-	}
 }

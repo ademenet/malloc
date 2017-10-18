@@ -6,7 +6,7 @@
 #    By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/10/11 16:56:30 by ademenet          #+#    #+#              #
-#    Updated: 2017/10/18 11:17:49 by ademenet         ###   ########.fr        #
+#    Updated: 2017/10/18 17:17:57 by ademenet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,7 +62,7 @@ fclean: clean
 re: fclean all
 
 norme:
-	@norminette */*[hc]
-	@norminette *[hc]
+	@norminette src/*c
+	@norminette inc/*h
 
 .PHONY: all test clean fclean re norme
