@@ -2,7 +2,7 @@
 #include <string.h>
 
 int main()
-{ 
+{
 	malloc(1024);
 	malloc(4096);
 	malloc(1024 * 32);
@@ -11,4 +11,4 @@ int main()
 	malloc(1024 * 1024 * 128);
 	show_alloc_mem();
 	return (0);
-} 
+}
