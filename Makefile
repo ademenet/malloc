@@ -6,7 +6,7 @@
 #    By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/10/11 16:56:30 by ademenet          #+#    #+#              #
-#    Updated: 2017/10/18 17:17:57 by ademenet         ###   ########.fr        #
+#    Updated: 2017/10/19 10:19:53 by ademenet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,19 +45,22 @@ OBJ = $(addprefix $(OBJ_PATH)/,$(OBJ_NAME))
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(FLAGS) -shared -o libft_malloc_$(HOSTTYPE).so $^
-	ln -sf libft_malloc_$(HOSTTYPE).so libft_malloc.so
+	@$(CC) $(FLAGS) -shared -o libft_malloc_$(HOSTTYPE).so $^
+	@ln -sf libft_malloc_$(HOSTTYPE).so libft_malloc.so
+	@echo "\033[1;34mMalloc\t\t\033[1;33mCompilation\t\033[0;32m[OK]\033[0m"
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
 	@mkdir $(OBJ_PATH) 2> /dev/null || true
-	$(CC) $(FLAGS) -c $< $(CPP_FLAGS) -o $@ -fPIC
+	@$(CC) $(FLAGS) -c $< $(CPP_FLAGS) -o $@ -fPIC
 
 clean:
-	rm -rf ./obj
+	@rm -rf ./obj
+	@echo "\033[1;34mMalloc\t\t\033[1;33mCleaning obj\t\033[0;32m[OK]\033[0m"
 
 fclean: clean
-	rm -rf libft_malloc.so
-	rm -rf libft_malloc_$(HOSTTYPE).so
+	@rm -rf libft_malloc.so
+	@rm -rf libft_malloc_$(HOSTTYPE).so
+	@echo "\033[1;34mMalloc\t\t\033[1;33mCleaning lib\t\033[0;32m[OK]\033[0m"
 
 re: fclean all
 
