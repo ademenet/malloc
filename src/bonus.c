@@ -6,7 +6,7 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/11 10:30:40 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/18 18:29:21 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/19 10:42:16 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ void			*calloc_nts(size_t count, size_t size)
 
 	true_size = count * size;
 	ptr = malloc_nts(true_size);
-	ft_bzero(ptr, true_size);
+	if (ptr)
+		ft_bzero(ptr, true_size);
 	return (ptr);
 }

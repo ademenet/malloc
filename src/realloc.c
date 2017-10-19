@@ -6,7 +6,7 @@
 /*   By: ademenet <ademenet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 14:00:36 by ademenet          #+#    #+#             */
-/*   Updated: 2017/10/18 17:23:17 by ademenet         ###   ########.fr       */
+/*   Updated: 2017/10/19 10:43:37 by ademenet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ static void		*reallocate(t_block *tmp, void *ptr, size_t size, int f_free)
 	else
 	{
 		new = malloc_nts(size);
-		ft_memcpy(new, ptr, tmp->size);
+		if (new)
+			ft_memcpy(new, ptr, tmp->size);
 		if (f_free)
 			free_nts(ptr);
 		return (new);
